@@ -1,0 +1,5 @@
+---
+applications:
+- name: octopuz 
+  memory: 64M
+  instances: 1

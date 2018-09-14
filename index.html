@@ -1,0 +1,109 @@
+<html>
+<head>
+    <script src="jquery-3.3.1.min.js"></script>
+    <style>
+        body { margin:0;padding:0;background-color:#59A9DF;}
+        #grid {width:580px; margin:0 auto; }
+        .block {float:left;display: block;border:1px solid black;margin: 6px;width:125px;height:125px;cursor:pointer;background-color:#23B8E5;}
+        .block img { width:125px;height:125px;cursor:pointer;}
+    </style>
+</head>
+<body>
+<div id="main">
+    <div id="header">
+        <img src="http://www.uzleuven.be/themes/custom/uzleuven/logo.svg" height="60px"/>
+    </div>
+    <div id="grid"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var imagesArray = ['flex.png','julie.png','zetel.png','jacob.png','jacob_pet.png','boot.png','koppel.png','costa.png'];
+    var click = 0;
+    var click_last = 0;
+
+    $( document ).ready(function() {
+        // start creating blocks;
+        for (var i=0;i<8;i++) {
+            addImage(i);
+            addImage(i);
+        }
+        shuffle();
+        hideImages();
+        addClickEvent();
+    });
+
+    function addImage(counter) {
+        var img  = imagesArray[counter];
+        var imgDiv = $("<div class='block hidden'><img src='img/"+ img +"'/></div>");
+        $("#grid").append(imgDiv);
+    }
+
+    function shuffle() {
+        var parent = $("#grid");
+        var divs = parent.children();
+        while (divs.length) {
+            parent.append(divs.splice(Math.floor(Math.random() * divs.length), 1)[0]);
+        }
+    }
+
+    function hideImages() {
+        $(".hidden img").css("display","none");
+    }
+
+    function addClickEvent() {
+        $(".block").click(function(block) {
+            doClick(this);
+        })
+    }
+
+
+    function doClick(block) {
+        var img = $(block).find('img');
+
+
+        // dont allow clicking on visible images
+        if($(img).css('display') == "block") {
+            return false;
+        }
+
+        //for some reason tripleclicking ?
+        if(click >1) {
+            return false;
+        }
+
+        $(block).addClass('clicked');
+
+        // First time ?
+        if(click == 0) {
+            click++;
+
+            // show image
+            $(img).css("display","block");
+
+            click_last = $(img).attr('src');
+        } else {
+            click++;
+
+            // show image
+            $(img).css("display","block");
+
+            // is it the same ?
+            if(click_last == $(img).attr('src')) {
+                // remove hidden class from all clicked divs
+                $(".clicked").removeClass("hidden");
+                // animate all tiles
+                $(".block").fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+                click = 0;
+            } else {
+                // hide images again
+                setTimeout(function(){ hideImages();click = 0;}, 1000);
+            }
+            //reset last clicked
+            $(".clicked").removeClass("clicked");
+        }
+    }
+</script>
+</body>
+</html>
