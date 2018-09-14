@@ -1,38 +1,55 @@
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
     <script src="jquery-3.3.1.min.js"></script>
     <style>
         body { margin:0;padding:0;background-color:#59A9DF;}
-        #grid {width:580px; margin:0 auto; }
-        .block {float:left;display: block;border:1px solid black;margin: 6px;width:125px;height:125px;cursor:pointer;background-color:#23B8E5;}
-        .block img { width:125px;height:125px;cursor:pointer;}
+        #grid {width:100%; margin:0 auto; }
+        .block {float:left;display: block;border:1px solid black;margin: 5px;width:100px;height:100px;cursor:pointer;background-color:#23B8E5;}
+        .block img { width:100%;height:100%;cursor:pointer;}
     </style>
 </head>
 <body>
 <div id="main">
-    <div id="header">
-        <img src="http://www.uzleuven.be/themes/custom/uzleuven/logo.svg" height="60px"/>
-    </div>
     <div id="grid"></div>
     </div>
 </div>
 
 <script type="text/javascript">
 
-    var imagesArray = ['flex.png','julie.png','zetel.png','jacob.png','jacob_pet.png','boot.png','koppel.png','costa.png'];
+    var imagesArray = ['flex.png','julie.png','zetel.png','jacob.png','jacob_pet.png','boot.png','koppel.png','costa.png','nacho.png'];
     var click = 0;
     var click_last = 0;
 
     $( document ).ready(function() {
         // start creating blocks;
-        for (var i=0;i<8;i++) {
+        for (var i=0;i<9;i++) {
             addImage(i);
             addImage(i);
         }
         shuffle();
         hideImages();
         addClickEvent();
+        resizeWindow();
     });
+
+    $( window ).resize(function() {
+        resizeWindow();
+    });
+
+    function resizeWindow() {
+        var width = $( document ).width();
+        var height = $( document ).height();
+
+        if(width <= height) {
+            $(".block").css("width", width / 4);
+            $(".block").css("height", width / 4);
+        } else {
+            $(".block").css("width", width / 6.8);
+            $(".block").css("height", width / 6.8);
+        }
+        console.log(width,height);
+    }
 
     function addImage(counter) {
         var img  = imagesArray[counter];
